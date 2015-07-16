@@ -6,7 +6,7 @@ package net.sf.jaudio.FeatureExtractor.AudioFeatures;
 import net.sf.jaudio.FeatureExtractor.ACE.DataTypes.FeatureDefinition;
 
 /**
- * Calculates linear predictive coeffecients of an signal. Also includes a
+ * Calculates linear predictive coefficients of a signal. Also includes a
  * warping factor lambda that is disabled by default. Based upon code published
  * at www.musicdsp.org.
  * <p>

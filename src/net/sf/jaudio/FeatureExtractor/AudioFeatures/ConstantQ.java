@@ -11,7 +11,7 @@ package net.sf.jaudio.FeatureExtractor.AudioFeatures;
 
 import net.sf.jaudio.FeatureExtractor.ACE.DataTypes.FeatureDefinition;
 
-/*
+/**
  * Constant Q
  * 
  * Transform from the time domain to the frequency domain that uses logarithmic bins. 

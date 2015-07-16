@@ -3,7 +3,7 @@ package net.sf.jaudio.FeatureExtractor.AudioFeatures;
 import net.sf.jaudio.FeatureExtractor.ACE.DataTypes.FeatureDefinition;
 
 /**
- * Class implementing the most basic discrete derivative of a dependant feature.
+ * Class implementing the most basic discrete derivative of a dependent feature.
  * Extends the MetaFeatureFactory abstract class.
  * 
  * @author Daniel McEnnis
