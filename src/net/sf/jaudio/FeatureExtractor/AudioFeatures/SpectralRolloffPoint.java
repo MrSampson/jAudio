@@ -23,7 +23,7 @@ public class SpectralRolloffPoint extends FeatureExtractor {
 
     protected double cutoff = 0.85;
 
-     /**
+    /**
      * Basic constructor that sets the definition and dependencies (and their
      * offsets) of this feature.
      */
@@ -36,8 +36,9 @@ public class SpectralRolloffPoint extends FeatureExtractor {
                 "of the right-skewedness of the power spectrum.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description, is_sequential,
-                dimensions, new String[] { "Cutoff point (0-1)" });
+        this.definition = new FeatureDefinition(name, description,
+                is_sequential, dimensions,
+                new String[] { "Cutoff point (0-1)" });
 
         this.dependencies = new String[1];
         this.dependencies[0] = "Power Spectrum";

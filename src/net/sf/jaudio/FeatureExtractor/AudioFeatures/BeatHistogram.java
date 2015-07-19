@@ -52,8 +52,6 @@ public class BeatHistogram extends FeatureExtractor {
         this.definition = new FeatureDefinition(name, description,
                 is_sequential, dimensions);
 
-        // int number_windows = 256;
-
         this.dependencies = new String[this.number_windows];
         for (int i = 0; i < this.dependencies.length; i++)
             this.dependencies[i] = "Root Mean Square";
