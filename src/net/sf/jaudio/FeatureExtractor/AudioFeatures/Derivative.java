@@ -12,7 +12,7 @@ public class Derivative extends MetaFeatureFactory {
 
 	/**
 	 * Basic constructor that initializes the metaFeature class variables
-	 * appropiaretely for factory use
+	 * appropriately for factory use
 	 */
 	public Derivative() {
 		super();

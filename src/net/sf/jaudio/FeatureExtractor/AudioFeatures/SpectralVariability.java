@@ -20,8 +20,6 @@ import net.sf.jaudio.FeatureExtractor.ACE.DataTypes.FeatureDefinition;
 public class SpectralVariability
 	extends FeatureExtractor
 {
-	/* CONSTRUCTOR **************************************************************/
-	
 	
 	/**
 	 * Basic constructor that sets the definition and dependencies (and their

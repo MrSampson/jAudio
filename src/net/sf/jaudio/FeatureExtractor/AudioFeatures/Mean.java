@@ -12,7 +12,7 @@ public class Mean extends MetaFeatureFactory {
 	protected int runningAverage = 100;
 
 	/**
-	 * Basic constructor that initializes the metafeautres values properly for
+	 * Basic constructor that initializes the metafeatures values properly for
 	 * use as a factory.
 	 */
 	public Mean() {

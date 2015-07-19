@@ -41,8 +41,8 @@ public class PowerSpectrum extends FeatureExtractor {
         String description = "A measure of the power of different frequency components.";
         boolean is_sequential = true;
         int dimensions = 0;
-        this.definition = new FeatureDefinition(name, description, is_sequential,
-                dimensions);
+        this.definition = new FeatureDefinition(name, description,
+                is_sequential, dimensions);
 
         this.dependencies = null;
 
@@ -53,8 +53,8 @@ public class PowerSpectrum extends FeatureExtractor {
      * {@inheritDoc}
      * 
      * <p>
-     * In the case of this feature, the sampling_rate and other_feature_values
-     * parameters are ignored.
+     * In the case of this feature, the <code>sampling_rate</code> and
+     * <code>other_feature_values</code> parameters are ignored.
      * </p>
      */
     @Override
@@ -64,11 +64,6 @@ public class PowerSpectrum extends FeatureExtractor {
         return fft.getPowerSpectrum();
     }
 
-    /**
-     * Create an identical copy of this feature. This permits FeatureExtractor
-     * to use the prototype pattern to create new composite features using
-     * metafeatures.
-     */
     @Override
     public Object clone() {
         return new PowerSpectrum();

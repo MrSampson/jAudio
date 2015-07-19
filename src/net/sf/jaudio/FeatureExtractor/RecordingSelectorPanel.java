@@ -21,7 +21,7 @@ import net.sf.jaudio.FeatureExtractor.jAudioTools.*;
 
 /**
  * A window that allows users to select audio files to extract features from,
- * edit or play. Alos allows the user to record or synthesize audio.
+ * edit or play. Also allows the user to record or synthesize audio.
  * <p>
  * The Save Features For Each Window checkbox determines whether feature values
  * for individual windows are saved.

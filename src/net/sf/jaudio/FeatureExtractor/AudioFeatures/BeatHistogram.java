@@ -49,8 +49,8 @@ public class BeatHistogram extends FeatureExtractor {
                 + "calculating the auto-correlation of the RMS.";
         boolean is_sequential = true;
         int dimensions = 0;
-        this.definition = new FeatureDefinition(name, description, is_sequential,
-                dimensions);
+        this.definition = new FeatureDefinition(name, description,
+                is_sequential, dimensions);
 
         // int number_windows = 256;
 
@@ -65,7 +65,9 @@ public class BeatHistogram extends FeatureExtractor {
 
     /**
      * {@inheritDoc}
-     * <p>In the case of this feature the sampling_rate is ignored.</p>
+     * <p>
+     * In the case of this feature the <code>sampling_rate</code> is ignored.
+     * </p>
      */
     @Override
     public double[] extractFeature(double[] samples, double sampling_rate,
@@ -111,6 +113,7 @@ public class BeatHistogram extends FeatureExtractor {
 
     /**
      * {@inheritDoc}
+     * 
      * @param index
      *            which of Beat Histograms's attributes should be edited.
      */
@@ -139,7 +142,7 @@ public class BeatHistogram extends FeatureExtractor {
             }
         }
     }
-    
+
     @Override
     public Object clone() {
         BeatHistogram ret = new BeatHistogram();
