@@ -85,7 +85,7 @@ public class LPCRemoved extends FeatureExtractor {
 	 * table displaying this information.
 	 * 
 	 * @param n
-	 *            number of coeffecients to be calculated.
+	 *            number of coefficients to be calculated.
 	 * @throws Exception
 	 *             thrown if less than 1 feature is to be calculated.
 	 */
