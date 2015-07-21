@@ -12,13 +12,7 @@ import net.sf.jaudio.FeatureExtractor.Cancel;
 import net.sf.jaudio.FeatureExtractor.ExplicitCancel;
 import net.sf.jaudio.FeatureExtractor.Updater;
 import net.sf.jaudio.FeatureExtractor.ACE.DataTypes.FeatureDefinition;
-import net.sf.jaudio.FeatureExtractor.Aggregators.Aggregator;
 import net.sf.jaudio.FeatureExtractor.Aggregators.AggregatorContainer;
-import net.sf.jaudio.FeatureExtractor.Aggregators.AreaMoments;
-import net.sf.jaudio.FeatureExtractor.Aggregators.MFCC;
-import net.sf.jaudio.FeatureExtractor.Aggregators.Mean;
-import net.sf.jaudio.FeatureExtractor.Aggregators.MultipleFeatureHistogram;
-import net.sf.jaudio.FeatureExtractor.Aggregators.StandardDeviation;
 import net.sf.jaudio.FeatureExtractor.AudioFeatures.*;
 
 import java.io.*;
@@ -43,8 +37,7 @@ import java.util.LinkedList;
  * @author Cory McKay
  */
 public class FeatureProcessor {
-	/* FIELDS ***************************************************************** */
-
+	
 	// The window size used for dividing up the recordings to classify.
 	private int window_size;
 
@@ -176,7 +169,7 @@ public class FeatureProcessor {
 			throw new Exception(
 				"Saving aggregators for each file but executed without setting a non-null AggregatorContainer object");
 		}
-		aggregator = container;
+		this.aggregator = container;
 		// Throw an exception if the control parameters are invalid
 		if (!save_features_for_each_window && !save_overall_recording_features)
 			throw new Exception(
@@ -234,9 +227,9 @@ public class FeatureProcessor {
 		// feature_values_save_file);
 		// FileOutputStream definitions_to = new FileOutputStream(
 		// feature_definitions_save_file);
-		values_writer = new DataOutputStream(feature_values_save_path);
-		definitions_writer = new DataOutputStream(feature_definitions_save_path);
-		definitions_written = false;
+		this.values_writer = new DataOutputStream(feature_values_save_path);
+		this.definitions_writer = new DataOutputStream(feature_definitions_save_path);
+		this.definitions_written = false;
 
 		// Save parameters as fields
 		this.window_size = window_size;
@@ -246,7 +239,7 @@ public class FeatureProcessor {
 		this.save_overall_recording_features = save_overall_recording_features;
 
 		// Calculate the window offset
-		window_overlap_offset = (int) (window_overlap * (double) window_size);
+		this.window_overlap_offset = (int) (window_overlap * (double) window_size);
 
 		// Find which features need to be extracted and in what order. Also find
 		// the indices of dependencies and the maximum offsets for each feature.
@@ -277,7 +270,7 @@ public class FeatureProcessor {
 		// Pre-process the recording and extract the samples from the audio
 		this.updater = updater;
 		double[] samples = preProcessRecording(recording_file);
-		if(cancel.isCancel()){
+		if(this.cancel.isCancel()){
 			throw new ExplicitCancel("Killed after loading data");
 		}
 		// Calculate the window start indices
@@ -285,7 +278,7 @@ public class FeatureProcessor {
 		int this_start = 0;
 		while (this_start < samples.length) {
 			window_start_indices_list.add(new Integer(this_start));
-			this_start += window_size - window_overlap_offset;
+			this_start += this.window_size - this.window_overlap_offset;
 		}
 		Integer[] window_start_indices_I = window_start_indices_list
 				.toArray(new Integer[1]);
@@ -309,7 +302,7 @@ public class FeatureProcessor {
 		// FeatureDefinition[1][];
 		// overall_feature_definitions[0] = null;
 		// double[][] overall_feature_values = null;
-		if (save_overall_recording_features) {
+		if (this.save_overall_recording_features) {
 //			Aggregator[] aggList = new Aggregator[10];
 //			aggList[0] = new Mean();
 //			aggList[1] = new StandardDeviation();
@@ -334,26 +327,26 @@ public class FeatureProcessor {
 //			aggList[3] = new MultipleFeatureHistogram(new FeatureExtractor[]{new MFCC()},4);
 			
 //			aggContainer.add(aggList);
-			aggregator.add(feature_extractors, features_to_save);
-			aggregator.aggregate(window_feature_values);
+			this.aggregator.add(this.feature_extractors, this.features_to_save);
+			this.aggregator.aggregate(window_feature_values);
 		}
 		// overall_feature_values = getOverallRecordingFeatures(
 		// window_feature_values, overall_feature_definitions);
 
 		// Save the feature values for this recording
-		if (outputType == 0) {
+		if (this.outputType == 0) {
 			saveACEFeatureVectorsForARecording(window_feature_values,
 					window_start_indices, recording_file.getPath(),
-					aggregator);
-		} else if (outputType == 1) {
+					this.aggregator);
+		} else if (this.outputType == 1) {
 			saveARFFFeatureVectorsForARecording(window_feature_values,
 					window_start_indices, recording_file.getPath(),
-					aggregator);
+					this.aggregator);
 		}
 
 		// Save the feature definitions
-		if (!definitions_written && (outputType == 0)) {
-			saveFeatureDefinitions(window_feature_values, aggregator);
+		if (!this.definitions_written && (this.outputType == 0)) {
+			saveFeatureDefinitions(window_feature_values, this.aggregator);
 		}
 	}
 
@@ -368,10 +361,10 @@ public class FeatureProcessor {
 	 *             streams.
 	 */
 	public void finalize() throws Exception {
-		if (outputType == 0) {
-			values_writer.writeBytes("</feature_vector_file>");
+		if (this.outputType == 0) {
+			this.values_writer.writeBytes("</feature_vector_file>");
 		}
-		values_writer.close();
+		this.values_writer.close();
 	}
 
 	/* PRIVATE METHODS ******************************************************** */
@@ -454,10 +447,10 @@ public class FeatureProcessor {
 		for (int i = 0; i < features_to_extract.length; i++)
 			if (features_to_extract[i])
 				number_features_to_extract++;
-		feature_extractors = new FeatureExtractor[number_features_to_extract];
-		features_to_save = new boolean[number_features_to_extract];
-		for (int i = 0; i < features_to_save.length; i++)
-			features_to_save[i] = false;
+		this.feature_extractors = new FeatureExtractor[number_features_to_extract];
+		this.features_to_save = new boolean[number_features_to_extract];
+		for (int i = 0; i < this.features_to_save.length; i++)
+			this.features_to_save[i] = false;
 		boolean[] feature_added = new boolean[dependencies.length];
 		for (int i = 0; i < feature_added.length; i++)
 			feature_added[i] = false;
@@ -474,8 +467,8 @@ public class FeatureProcessor {
 					// dependencies
 					{
 						feature_added[feat] = true;
-						feature_extractors[current_position] = all_feature_extractors[feat];
-						features_to_save[current_position] = features_to_save_among_all[feat];
+						this.feature_extractors[current_position] = all_feature_extractors[feat];
+						this.features_to_save[current_position] = features_to_save_among_all[feat];
 						current_position++;
 						done = false;
 
@@ -514,44 +507,44 @@ public class FeatureProcessor {
 		// Find the indices of the feature extractor dependencies for each
 		// feature
 		// extractor
-		feature_extractor_dependencies = new int[feature_extractors.length][];
-		String[] feature_names = new String[feature_extractors.length];
+		this.feature_extractor_dependencies = new int[this.feature_extractors.length][];
+		String[] feature_names = new String[this.feature_extractors.length];
 		for (int feat = 0; feat < feature_names.length; feat++) {
-			feature_names[feat] = feature_extractors[feat]
+			feature_names[feat] = this.feature_extractors[feat]
 					.getFeatureDefinition().name;
 		}
-		String[][] feature_dependencies_str = new String[feature_extractors.length][];
+		String[][] feature_dependencies_str = new String[this.feature_extractors.length][];
 		for (int feat = 0; feat < feature_dependencies_str.length; feat++)
-			feature_dependencies_str[feat] = feature_extractors[feat]
+			feature_dependencies_str[feat] = this.feature_extractors[feat]
 					.getDepenedencies();
 		for (int i = 0; i < feature_dependencies_str.length; i++)
 			if (feature_dependencies_str[i] != null) {
-				feature_extractor_dependencies[i] = new int[feature_dependencies_str[i].length];
+				this.feature_extractor_dependencies[i] = new int[feature_dependencies_str[i].length];
 				for (int j = 0; j < feature_dependencies_str[i].length; j++)
 					for (int k = 0; k < feature_names.length; k++)
 						if (feature_dependencies_str[i][j]
 								.equals(feature_names[k]))
-							feature_extractor_dependencies[i][j] = k;
+							this.feature_extractor_dependencies[i][j] = k;
 			}
 
 		// Find the maximum offset for each feature
 		// Daniel McEnnis 5-07-05 added feature offset of dependancies to
 		// max_offset
-		max_feature_offsets = new int[feature_extractors.length];
-		for (int i = 0; i < max_feature_offsets.length; i++) {
-			if (feature_extractors[i].getDepenedencyOffsets() == null)
-				max_feature_offsets[i] = 0;
+		this.max_feature_offsets = new int[this.feature_extractors.length];
+		for (int i = 0; i < this.max_feature_offsets.length; i++) {
+			if (this.feature_extractors[i].getDepenedencyOffsets() == null)
+				this.max_feature_offsets[i] = 0;
 			else {
-				int[] these_offsets = feature_extractors[i]
+				int[] these_offsets = this.feature_extractors[i]
 						.getDepenedencyOffsets();
-				max_feature_offsets[i] = Math
+				this.max_feature_offsets[i] = Math
 						.abs(these_offsets[0]
-								+ max_feature_offsets[feature_extractor_dependencies[i][0]]);
+								+ this.max_feature_offsets[this.feature_extractor_dependencies[i][0]]);
 				for (int k = 0; k < these_offsets.length; k++) {
 					int val = Math.abs(these_offsets[k])
-							+ max_feature_offsets[feature_extractor_dependencies[i][k]];
-					if (val > max_feature_offsets[i]) {
-						max_feature_offsets[i] = val;
+							+ this.max_feature_offsets[this.feature_extractor_dependencies[i][k]];
+					if (val > this.max_feature_offsets[i]) {
+						this.max_feature_offsets[i] = val;
 					}
 				}
 			}
@@ -604,10 +597,10 @@ public class FeatureProcessor {
 		// sampling rate.
 		// Also, convert to an appropriate bit depth if necessary.
 		AudioInputStream new_stream = second_stream;
-		if (original_format.getSampleRate() != (float) sampling_rate
+		if (original_format.getSampleRate() != (float) this.sampling_rate
 				|| bit_depth != original_format.getSampleSizeInBits()) {
 			AudioFormat new_format = new AudioFormat(
-					AudioFormat.Encoding.PCM_SIGNED, (float) sampling_rate,
+					AudioFormat.Encoding.PCM_SIGNED, (float) this.sampling_rate,
 					bit_depth, original_format.getChannels(), original_format
 							.getChannels()
 							* (bit_depth / 8), original_format.getSampleRate(),
@@ -621,7 +614,7 @@ public class FeatureProcessor {
 				.getPath(), false);
 
 		// Normalise samples if this option has been requested
-		if (normalise)
+		if (this.normalise)
 			audio_data.normalizeMixedDownSamples();
 
 		// Return all channels compressed into one
@@ -651,7 +644,7 @@ public class FeatureProcessor {
 		// The extracted feature values for this recording. The first indice
 		// identifies the window, the second identifies the feature and the
 		// third identifies the feature value.
-		double[][][] results = new double[window_start_indices.length][feature_extractors.length][];
+		double[][][] results = new double[window_start_indices.length][this.feature_extractors.length][];
 
 		// Calculate how frequently to make updates to the updater;
 		int updateThreshold = 1;
@@ -666,17 +659,17 @@ public class FeatureProcessor {
 		// provided samples.
 		for (int win = 0; win < window_start_indices.length; win++) {
 			// Do we need to update the progress bar or not
-			if ((updater != null) && (win % updateThreshold == 0)) {
-				updater.announceUpdate(win);
-				if(cancel.isCancel()){
+			if ((this.updater != null) && (win % updateThreshold == 0)) {
+				this.updater.announceUpdate(win);
+				if(this.cancel.isCancel()){
 					throw new ExplicitCancel("Killed while processing features");
 				}
 			}
 
 			// Find the samples in this window and zero-pad if necessary
-			double[] window = new double[window_size];
+			double[] window = new double[this.window_size];
 			int start_sample = window_start_indices[win];
-			int end_sample = start_sample + window_size - 1;
+			int end_sample = start_sample + this.window_size - 1;
 			if (end_sample < samples.length)
 				for (int samp = start_sample; samp <= end_sample; samp++)
 					window[samp - start_sample] = samples[samp];
@@ -689,21 +682,21 @@ public class FeatureProcessor {
 				}
 
 			// Extract the features one by one
-			for (int feat = 0; feat < feature_extractors.length; feat++) {
+			for (int feat = 0; feat < this.feature_extractors.length; feat++) {
 				// Only extract this feature if enough previous information
 				// is available to extract this feature
-				if (win >= max_feature_offsets[feat]) {
+				if (win >= this.max_feature_offsets[feat]) {
 					// Find the correct feature
-					FeatureExtractor feature = feature_extractors[feat];
+					FeatureExtractor feature = this.feature_extractors[feat];
 
 					// Find previously extracted feature values that this
 					// feature
 					// needs
 					double[][] other_feature_values = null;
-					if (feature_extractor_dependencies[feat] != null) {
-						other_feature_values = new double[feature_extractor_dependencies[feat].length][];
-						for (int i = 0; i < feature_extractor_dependencies[feat].length; i++) {
-							int feature_indice = feature_extractor_dependencies[feat][i];
+					if (this.feature_extractor_dependencies[feat] != null) {
+						other_feature_values = new double[this.feature_extractor_dependencies[feat].length][];
+						for (int i = 0; i < this.feature_extractor_dependencies[feat].length; i++) {
+							int feature_indice = this.feature_extractor_dependencies[feat][i];
 							int offset = feature.getDepenedencyOffsets()[i];
 							other_feature_values[i] = results[win + offset][feature_indice];
 						}
@@ -711,7 +704,7 @@ public class FeatureProcessor {
 
 					// Store the extracted feature values
 					results[win][feat] = feature.extractFeature(window,
-							sampling_rate, other_feature_values);
+							this.sampling_rate, other_feature_values);
 				} else
 					results[win][feat] = null;
 			}
@@ -752,11 +745,11 @@ public class FeatureProcessor {
 		LinkedList<double[]> values = new LinkedList<double[]>();
 		LinkedList<FeatureDefinition> definitions = new LinkedList<FeatureDefinition>();
 
-		for (int feat = 0; feat < feature_extractors.length; feat++)
+		for (int feat = 0; feat < this.feature_extractors.length; feat++)
 			if (window_feature_values[window_feature_values.length - 1][feat] != null
-					&& features_to_save[feat]) {
+					&& this.features_to_save[feat]) {
 				// Make the definitions
-				FeatureDefinition this_def = feature_extractors[feat]
+				FeatureDefinition this_def = this.feature_extractors[feat]
 						.getFeatureDefinition();
 				FeatureDefinition average_definition = new FeatureDefinition(
 						this_def.name + " Overall Average",
@@ -833,7 +826,7 @@ public class FeatureProcessor {
 				+ "   <!ELEMENT name (#PCDATA)>\n"
 				+ "   <!ELEMENT v (#PCDATA)>\n" + "]>\n\n"
 				+ "<feature_vector_file>\n\n" + "   <comments></comments>\n\n");
-		values_writer.writeBytes(feature_vector_header);
+		this.values_writer.writeBytes(feature_vector_header);
 	}
 
 	/**
@@ -850,21 +843,21 @@ public class FeatureProcessor {
 	private void writeValuesARFFHeader() throws Exception {
 		String sep = System.getProperty("line.separator");
 		String feature_value_header = "@relation jAudio" + sep;
-		values_writer.writeBytes(feature_value_header);
-		if (save_features_for_each_window && !save_overall_recording_features) {
-			for (int i = 0; i < feature_extractors.length; ++i) {
-				if (features_to_save[i]) {
-					String name = feature_extractors[i].getFeatureDefinition().name;
-					int dimension = feature_extractors[i]
+		this.values_writer.writeBytes(feature_value_header);
+		if (this.save_features_for_each_window && !this.save_overall_recording_features) {
+			for (int i = 0; i < this.feature_extractors.length; ++i) {
+				if (this.features_to_save[i]) {
+					String name = this.feature_extractors[i].getFeatureDefinition().name;
+					int dimension = this.feature_extractors[i]
 							.getFeatureDefinition().dimensions;
 					for (int j = 0; j < dimension; ++j) {
-						values_writer.writeBytes("@ATTRIBUTE \"" + name + j
+						this.values_writer.writeBytes("@ATTRIBUTE \"" + name + j
 								+ "\" NUMERIC" + sep);
 					}
 				}
 			}
-			values_writer.writeBytes(sep);
-			values_writer.writeBytes("@DATA" + sep);
+			this.values_writer.writeBytes(sep);
+			this.values_writer.writeBytes("@DATA" + sep);
 		}
 	}
 
@@ -905,23 +898,23 @@ public class FeatureProcessor {
 			String identifier, AggregatorContainer aggContainer) throws Exception {
 		// We have to flatten the feature tree into a single set.
 		// Either output overall features or output all features
-		if (save_overall_recording_features) {
-			if (!isARFFOverallHeaderWritten) {
-				aggContainer.outputARFFHeaderEntries(values_writer);
-				isARFFOverallHeaderWritten = true;
+		if (this.save_overall_recording_features) {
+			if (!this.isARFFOverallHeaderWritten) {
+				aggContainer.outputARFFHeaderEntries(this.values_writer);
+				this.isARFFOverallHeaderWritten = true;
 			}
-			aggContainer.outputARFFValueEntries(values_writer);
+			aggContainer.outputARFFValueEntries(this.values_writer);
 		} else {
 			for (int win = 0; win < feature_values.length; ++win) {
 				for (int feat = 0; feat < feature_values[win].length; ++feat) {
-					if (features_to_save[feat]) {
+					if (this.features_to_save[feat]) {
 						if (feature_values[win][feat] == null) {
-							int dim = feature_extractors[feat]
+							int dim = this.feature_extractors[feat]
 									.getFeatureDefinition().dimensions;
 							for (int d = 0; d < dim; ++d) {
-								values_writer.writeBytes("?");
+								this.values_writer.writeBytes("?");
 								if (d < dim - 1) {
-									values_writer.writeBytes(",");
+									this.values_writer.writeBytes(",");
 								}
 							}
 						} else {
@@ -929,18 +922,18 @@ public class FeatureProcessor {
 								String value = net.sf.jaudio.FeatureExtractor.GeneralTools.StringMethods
 										.getDoubleInScientificNotation(
 												feature_values[win][feat][d], 4);
-								values_writer.writeBytes(value);
+								this.values_writer.writeBytes(value);
 								if (d < feature_values[win][feat].length - 1) {
-									values_writer.writeBytes(",");
+									this.values_writer.writeBytes(",");
 								}
 							}
 						}
 						if (feat < feature_values[win].length - 1) {
-							values_writer.writeBytes(",");
+							this.values_writer.writeBytes(",");
 						}
 					}
 				}
-				values_writer.writeBytes(System.getProperty("line.separator"));
+				this.values_writer.writeBytes(System.getProperty("line.separator"));
 			}
 		}
 	}
@@ -982,44 +975,44 @@ public class FeatureProcessor {
 			String identifier, AggregatorContainer aggContainer)
 			throws Exception {
 		// Start the entry for the recording
-		values_writer.writeBytes("\t<data_set>\n");
-		values_writer.writeBytes("\t\t<data_set_id>" + identifier
+		this.values_writer.writeBytes("\t<data_set>\n");
+		this.values_writer.writeBytes("\t\t<data_set_id>" + identifier
 				+ "</data_set_id>\n");
 
 		// Write the features for individual windows
-		if (save_features_for_each_window)
+		if (this.save_features_for_each_window)
 			for (int win = 0; win < feature_values.length; win++) {
 				double start_time = ((double) window_start_indices[win])
-						/ sampling_rate;
+						/ this.sampling_rate;
 				double end_time = ((double) (window_start_indices[win]
-						+ window_size - 1))
-						/ sampling_rate;
-				values_writer.writeBytes("\t\t<section start=\"" + start_time
+						+ this.window_size - 1))
+						/ this.sampling_rate;
+				this.values_writer.writeBytes("\t\t<section start=\"" + start_time
 						+ "\" stop=\"" + end_time + "\">\n");
 				for (int feat = 0; feat < feature_values[win].length; feat++) {
-					if (features_to_save[feat])
+					if (this.features_to_save[feat])
 						if (feature_values[win][feat] != null) {
-							String feature_name = feature_extractors[feat]
+							String feature_name = this.feature_extractors[feat]
 									.getFeatureDefinition().name;
-							values_writer.writeBytes("\t\t\t<feature>\n");
-							values_writer.writeBytes("\t\t\t\t<name>"
+							this.values_writer.writeBytes("\t\t\t<feature>\n");
+							this.values_writer.writeBytes("\t\t\t\t<name>"
 									+ feature_name + "</name>\n");
 							for (int val = 0; val < feature_values[win][feat].length; val++) {
 								String value = net.sf.jaudio.FeatureExtractor.GeneralTools.StringMethods
 										.getDoubleInScientificNotation(
 												feature_values[win][feat][val],
 												4);
-								values_writer.writeBytes("\t\t\t\t<v>" + value
+								this.values_writer.writeBytes("\t\t\t\t<v>" + value
 										+ "</v>\n");
 							}
-							values_writer.writeBytes("\t\t\t</feature>\n");
+							this.values_writer.writeBytes("\t\t\t</feature>\n");
 						}
 				}
-				values_writer.writeBytes("\t\t</section>\n");
+				this.values_writer.writeBytes("\t\t</section>\n");
 			}
 
 		// Write the features for the file
-		if (save_overall_recording_features)
+		if (this.save_overall_recording_features)
 			// for (int feat = 0; feat < overall_feature_values.length; feat++)
 			// {
 			// values_writer.writeBytes("\t\t<feature>\n");
@@ -1034,9 +1027,9 @@ public class FeatureProcessor {
 			// }
 			// values_writer.writeBytes("\t\t</feature>\n");
 			// }
-			aggContainer.outputACEValueEntries(values_writer);
+			aggContainer.outputACEValueEntries(this.values_writer);
 		// End the entry for the recording
-		values_writer.writeBytes("\t</data_set>\n\n");
+		this.values_writer.writeBytes("\t</data_set>\n\n");
 	}
 
 	/**
@@ -1069,33 +1062,33 @@ public class FeatureProcessor {
 						+ "   <!ELEMENT parallel_dimensions (#PCDATA)>\n"
 						+ "]>\n\n" + "<feature_key_file>\n\n"
 						+ "   <comments></comments>\n\n");
-		definitions_writer.writeBytes(feature_key_header);
+		this.definitions_writer.writeBytes(feature_key_header);
 
 		double[][] last_window_features = feature_values[feature_values.length - 1];
 
 		// Write the window functions
-		if (save_features_for_each_window)
-			for (int feat = 0; feat < feature_extractors.length; feat++)
-				if (features_to_save[feat])
+		if (this.save_features_for_each_window)
+			for (int feat = 0; feat < this.feature_extractors.length; feat++)
+				if (this.features_to_save[feat])
 					if (last_window_features[feat] != null) {
-						FeatureDefinition def = feature_extractors[feat]
+						FeatureDefinition def = this.feature_extractors[feat]
 								.getFeatureDefinition();
-						definitions_writer.writeBytes("   <feature>\n");
-						definitions_writer.writeBytes("      <name>" + def.name
+						this.definitions_writer.writeBytes("   <feature>\n");
+						this.definitions_writer.writeBytes("      <name>" + def.name
 								+ "</name>\n");
-						definitions_writer.writeBytes("      <description>"
+						this.definitions_writer.writeBytes("      <description>"
 								+ def.description + "</description>\n");
-						definitions_writer.writeBytes("      <is_sequential>"
+						this.definitions_writer.writeBytes("      <is_sequential>"
 								+ def.is_sequential + "</is_sequential>\n");
-						definitions_writer
+						this.definitions_writer
 								.writeBytes("      <parallel_dimensions>"
 										+ last_window_features[feat].length
 										+ "</parallel_dimensions>\n");
-						definitions_writer.writeBytes("   </feature>\n\n");
+						this.definitions_writer.writeBytes("   </feature>\n\n");
 					}
 
 		// Write the overall file functions
-		if (save_overall_recording_features) {
+		if (this.save_overall_recording_features) {
 			// for (int feat = 0; feat < overall_feature_definitions.length;
 			// feat++) {
 			// FeatureDefinition def = overall_feature_definitions[feat];
@@ -1109,13 +1102,13 @@ public class FeatureProcessor {
 			// definitions_writer.writeBytes(" <parallel_dimensions>"
 			// + def.dimensions + "</parallel_dimensions>\n");
 			// definitions_writer.writeBytes(" </feature>\n\n");
-			aggContainer.outputACEFeatureKeyEntries(definitions_writer);
+			aggContainer.outputACEFeatureKeyEntries(this.definitions_writer);
 		}
 
-		definitions_writer.writeBytes("</feature_key_file>");
+		this.definitions_writer.writeBytes("</feature_key_file>");
 
-		definitions_writer.close();
+		this.definitions_writer.close();
 
-		definitions_written = true;
+		this.definitions_written = true;
 	}
 }

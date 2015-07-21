@@ -9,21 +9,24 @@ package net.sf.jaudio.FeatureExtractor.AudioFeatures;
 import net.sf.jaudio.FeatureExtractor.ACE.DataTypes.FeatureDefinition;
 
 /**
+ * <p>
  * A feature extractor that extracts the Compactness. This is a measure of the
  * noisiness of a signal.
+ * </p>
  * <p>
  * This is calculated by comparing the value of a magnitude spectrum bin with
  * its surrounding values.
+ * </p>
  * <p>
  * No extracted feature values are stored in objects of this class.
- * <p>
- * Daniel McEnnis 05-07-05 added check for degenerate case of 0 in magnitude
- * spectrum and added clone
+ * </p>
  * 
  * @author Cory McKay
+ * @author Daniel McEnnis 05-07-05 added check for degenerate case of 0 in
+ *         magnitude spectrum and added clone
  */
 public class Compactness extends FeatureExtractor {
-   
+
     /**
      * Basic constructor that sets the definition and dependencies (and their
      * offsets) of this feature.
@@ -36,8 +39,8 @@ public class Compactness extends FeatureExtractor {
                 + "of its neighbouring windows.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description, is_sequential,
-                dimensions);
+        this.definition = new FeatureDefinition(name, description,
+                is_sequential, dimensions);
 
         this.dependencies = new String[1];
         this.dependencies[0] = "Magnitude Spectrum";

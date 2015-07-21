@@ -9,18 +9,20 @@ package net.sf.jaudio.FeatureExtractor.AudioFeatures;
 import net.sf.jaudio.FeatureExtractor.ACE.DataTypes.FeatureDefinition;
 
 /**
+ * <p>
  * A feature extractor that extracts the Spectral Flux from a window of samples
  * and the preceeding window. This is a good measure of the amount of spectral
- * chagne of a signal.
- *
+ * change of a signal.
+ * </p>
  * <p>
  * Spectral flux is calculated by first calculating the difference between the
  * current value of each magnitude spectrum bin in the current window from the
  * corresponding value of the magnitude spectrum of the previous window. Each of
  * these differences is then squared, and the result is the sum of the squares.
- *
+ * </p>
  * <p>
  * No extracted feature values are stored in objects of this class.
+ * </p>
  *
  * @author Cory McKay
  */
@@ -39,8 +41,8 @@ public class SpectralFlux extends FeatureExtractor {
                 "from frame to frame.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description, is_sequential,
-                dimensions);
+        this.definition = new FeatureDefinition(name, description,
+                is_sequential, dimensions);
 
         this.dependencies = new String[2];
         this.dependencies[0] = "Magnitude Spectrum";
@@ -77,7 +79,6 @@ public class SpectralFlux extends FeatureExtractor {
         return result;
     }
 
-    
     @Override
     public Object clone() {
         return new SpectralFlux();

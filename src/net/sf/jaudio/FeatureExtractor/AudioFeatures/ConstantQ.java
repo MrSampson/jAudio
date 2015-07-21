@@ -84,7 +84,7 @@ public class ConstantQ extends FeatureExtractor {
         return new ConstantQ();
     }
 
-    private double[] resample(double[] samples, int window_length) {
+    private static double[] resample(double[] samples, int window_length) {
         double[] ret = new double[window_length];
         double[] index = new double[window_length];
         double increment = ((double) samples.length) / ((double) window_length);
