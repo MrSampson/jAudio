@@ -45,12 +45,12 @@ public class AreaMomentsLogConstantQ extends FeatureExtractor {
      * FeatureExtractor
      */
     public AreaMomentsLogConstantQ() {
-        String name = "Area Method of Moments of Log of ConstantQ transform";
-        String description = "2D statistical method of moments of the log of the ConstantQ transform";
-        String[] attributes = new String[] { "Area Method of Moments Window Length" };
+        this.name = "Area Method of Moments of Log of ConstantQ transform";
+        this.description = "2D statistical method of moments of the log of the ConstantQ transform";
+        this.attributes = new String[] { "Area Method of Moments Window Length" };
 
-        this.definition = new FeatureDefinition(name, description, true, 10,
-                attributes);
+        this.definition = new FeatureDefinition(this.name, this.description, true, 10,
+                this.attributes);
         this.dependencies = new String[this.lengthOfWindow];
         for (int i = 0; i < this.dependencies.length; ++i) {
             this.dependencies[i] = "Log of ConstantQ";

@@ -27,13 +27,13 @@ public class SpectralVariability extends FeatureExtractor {
      * offsets) of this feature.
      */
     public SpectralVariability() {
-        String name = "Spectral Variability";
-        String description = "The standard deviation of the magnitude spectrum. "
+        this.name = "Spectral Variability";
+        this.description = "The standard deviation of the magnitude spectrum. "
                 + "This is a measure of the variance of a signal's "
                 + "magnitude spectrum.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description,
+        this.definition = new FeatureDefinition(this.name, this.description,
                 is_sequential, dimensions);
 
         this.dependencies = new String[1];

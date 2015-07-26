@@ -26,13 +26,13 @@ public class ZeroCrossings extends FeatureExtractor {
      * Constructor.
      */
     public ZeroCrossings() {
-        String name = "Zero Crossings";
-        String description = "The number of times the waveform changed sign. "
+        this.name = "Zero Crossings";
+        this.description = "The number of times the waveform changed sign. "
                 + "An indication of frequency as well as noisiness.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description, is_sequential,
-                dimensions);
+        this.definition = new FeatureDefinition(this.name, this.description,
+                is_sequential, dimensions);
 
         this.dependencies = null;
 

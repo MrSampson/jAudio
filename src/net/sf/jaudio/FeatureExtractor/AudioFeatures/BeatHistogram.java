@@ -43,8 +43,8 @@ public class BeatHistogram extends FeatureExtractor {
      * offsets) of this feature.
      */
     public BeatHistogram() {
-        String name = "Beat Histogram";
-        String description = "A histogram showing the relative strength of different "
+         name = "Beat Histogram";
+         description = "A histogram showing the relative strength of different "
                 + "rhythmic periodicities (tempi) in a signal. Found by "
                 + "calculating the auto-correlation of the RMS.";
         boolean is_sequential = true;

@@ -32,12 +32,12 @@ public class StrongestFrequencyViaSpectralCentroid extends FeatureExtractor {
      * offsets) of this feature.
      */
     public StrongestFrequencyViaSpectralCentroid() {
-        String name = "Strongest Frequency Via Spectral Centroid";
-        String description = "The strongest frequency component of a signal, in Hz, "
+        this.name = "Strongest Frequency Via Spectral Centroid";
+        this.description = "The strongest frequency component of a signal, in Hz, "
                 + "found via the spectral centroid.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description,
+        this.definition = new FeatureDefinition(this.name, this.description,
                 is_sequential, dimensions);
 
         this.dependencies = new String[2];
@@ -52,7 +52,8 @@ public class StrongestFrequencyViaSpectralCentroid extends FeatureExtractor {
     /**
      * {@inheritDoc}
      * <p>
-     * In the case of this feature, the <code>sampling_rate parameter</code> is ignored.
+     * In the case of this feature, the <code>sampling_rate parameter</code> is
+     * ignored.
      * </p>
      */
     @Override

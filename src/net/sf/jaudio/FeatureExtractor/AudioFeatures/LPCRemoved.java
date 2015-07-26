@@ -14,8 +14,8 @@ public class LPCRemoved extends FeatureExtractor {
 	private int num_dimensions = 10;
 
 	public LPCRemoved() {
-		String name = "LPC";
-		String description = "Linear Predictive Encoding implemented from 'Numerical Recipes in C'";
+		 name = "LPC";
+		 description = "Linear Predictive Encoding implemented from 'Numerical Recipes in C'";
 
 		definition = new FeatureDefinition(name, description, true,
 				num_dimensions,

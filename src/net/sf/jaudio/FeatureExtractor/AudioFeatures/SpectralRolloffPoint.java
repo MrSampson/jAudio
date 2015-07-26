@@ -28,15 +28,15 @@ public class SpectralRolloffPoint extends FeatureExtractor {
      * offsets) of this feature.
      */
     public SpectralRolloffPoint() {
-        String name = "Spectral Rolloff Point";
-        String description = "The fraction of bins in the power spectrum at which 85% "
+         this.name = "Spectral Rolloff Point";
+         this.description = "The fraction of bins in the power spectrum at which 85% "
                 + // System.getProperty("line.separator") +
                 "of the power is at lower frequencies. This is a measure " + // System.getProperty("line.separator")
                 // +
                 "of the right-skewedness of the power spectrum.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description,
+        this.definition = new FeatureDefinition(this.name, this.description,
                 is_sequential, dimensions,
                 new String[] { "Cutoff point (0-1)" });
 

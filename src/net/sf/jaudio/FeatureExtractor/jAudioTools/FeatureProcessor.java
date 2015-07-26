@@ -400,7 +400,7 @@ public class FeatureProcessor {
 		for (int feat = 0; feat < all_feature_extractors.length; feat++) {
 			if (features_to_save_among_all[feat])
 				dependencies[feat] = all_feature_extractors[feat]
-						.getDepenedencies();
+						.getDependencies();
 			else
 				dependencies[feat] = null;
 		}
@@ -431,7 +431,7 @@ public class FeatureProcessor {
 								if (!features_to_extract[j]) {
 									features_to_extract[j] = true;
 									dependencies[j] = all_feature_extractors[j]
-											.getDepenedencies();
+											.getDependencies();
 									if (dependencies[j] != null)
 										done = false;
 								}
@@ -516,7 +516,7 @@ public class FeatureProcessor {
 		String[][] feature_dependencies_str = new String[this.feature_extractors.length][];
 		for (int feat = 0; feat < feature_dependencies_str.length; feat++)
 			feature_dependencies_str[feat] = this.feature_extractors[feat]
-					.getDepenedencies();
+					.getDependencies();
 		for (int i = 0; i < feature_dependencies_str.length; i++)
 			if (feature_dependencies_str[i] != null) {
 				this.feature_extractor_dependencies[i] = new int[feature_dependencies_str[i].length];
@@ -552,16 +552,19 @@ public class FeatureProcessor {
 	}
 
 	/**
-	 * Returns the samples stored in the given audio file.
 	 * <p>
-	 * The samples are re-encoded using the sampling rate in the sampling_rate
+	 * Returns the samples stored in the given audio file.
+	 * </p>
+	 * <p>
+	 * The samples are re-encoded using the sampling rate in the <code>sampling_rate</code>
 	 * field. All channels are projected into one channel. Samples are
 	 * normalised if the normalise field is true.
+	 * </p>
 	 * 
 	 * @param recording_file
 	 *            The audio file to extract samples from.
 	 * @return The processed audio samples. Values will fall between a minimum
-	 *         of -1 and +1. The indice identifies the sample number.
+	 *         of -1 and +1. The index identifies the sample number.
 	 * @throws Exception
 	 *             An exception is thrown if a problem occurs during file
 	 *             reading or pre- processing.

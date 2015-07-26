@@ -23,11 +23,11 @@ public class MFCC extends FeatureExtractor {
      * Construct a MFCC object, setting definition, dependencies, and offsets.
      */
     public MFCC() {
-        String name = "MFCC";
-        String description = "MFCC calculations based upon Orange Cow code";
-        String[] attributes = new String[] { "Number of Coeffecients" };
-        this.definition = new FeatureDefinition(name, description, true, 13,
-                attributes);
+        this.name = "MFCC";
+        this.description = "MFCC calculations based upon Orange Cow code";
+        this.attributes = new String[] { "Number of Coeffecients" };
+        this.definition = new FeatureDefinition(this.name, this.description, true, 13,
+                this.attributes);
         this.dependencies = new String[] { "Magnitude Spectrum" };
         this.offsets = new int[] { 0 };
         this.fe = new featureExtraction();
@@ -70,8 +70,8 @@ public class MFCC extends FeatureExtractor {
                 String name = this.definition.name;
                 String description = this.definition.description;
                 String[] attributes = this.definition.attributes;
-                this.definition = new FeatureDefinition(name, description, true,
-                        this.fe.numCepstra, attributes);
+                this.definition = new FeatureDefinition(name, description,
+                        true, this.fe.numCepstra, attributes);
                 if (this.parent != null) {
                     this.parent.updateTable();
                 }

@@ -33,15 +33,15 @@ public class SpectralFlux extends FeatureExtractor {
      * offsets) of this feature.
      */
     public SpectralFlux() {
-        String name = "Spectral Flux";
-        String description = "A measure of the amount of spectral change in a signal. "
+         this.name = "Spectral Flux";
+         this.description = "A measure of the amount of spectral change in a signal. "
                 + // \n" +
                 "Found by calculating the change in the magnitude spectrum " + // \n"
                                                                                // +
                 "from frame to frame.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description,
+        this.definition = new FeatureDefinition(this.name, this.description,
                 is_sequential, dimensions);
 
         this.dependencies = new String[2];

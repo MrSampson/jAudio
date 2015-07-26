@@ -48,12 +48,12 @@ public class AreaMomentsConstantQMFCC extends FeatureExtractor {
      * FeatureExtractor
      */
     public AreaMomentsConstantQMFCC() {
-        String name = "Area Method of Moments of ConstantQ-based MFCCs";
-        String description = "2D statistical method of moments of ConstantQ-based MFCCs";
-        String[] attributes = new String[] { "Area Method of Moments Window Length" };
+        this.name = "Area Method of Moments of ConstantQ-based MFCCs";
+        this.description = "2D statistical method of moments of ConstantQ-based MFCCs";
+        this.attributes = new String[] { "Area Method of Moments Window Length" };
 
-        this.definition = new FeatureDefinition(name, description, true, 10,
-                attributes);
+        this.definition = new FeatureDefinition(this.name, this.description, true, 10,
+                this.attributes);
         this.dependencies = new String[this.lengthOfWindow];
         for (int i = 0; i < this.dependencies.length; ++i) {
             this.dependencies[i] = "ConstantQ derived MFCCs";

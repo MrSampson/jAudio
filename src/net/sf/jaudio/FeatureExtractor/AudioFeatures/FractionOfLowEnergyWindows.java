@@ -37,8 +37,8 @@ public class FractionOfLowEnergyWindows extends FeatureExtractor {
      * offsets) of this feature.
      */
     public FractionOfLowEnergyWindows() {
-        String name = "Fraction Of Low Energy Windows";
-        String description = "The fraction of the last 100 windows that has an "
+         name = "Fraction Of Low Energy Windows";
+         description = "The fraction of the last 100 windows that has an "
                 + "RMS less than the mean RMS in the last 100 windows. "
                 + "This can indicate how much of a signal is quiet "
                 + "relative to the rest of the signal.";

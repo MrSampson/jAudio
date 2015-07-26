@@ -42,8 +42,8 @@ public class HarmonicSpectralCentroid extends FeatureExtractor {
      *
      */
     public HarmonicSpectralCentroid() {
-        String name = "Partial Based Spectral Centroid";
-        String description = "Spectral Centroid calculated based on the center of mass of partials instead of center of mass of bins.";
+         name = "Partial Based Spectral Centroid";
+         description = "Spectral Centroid calculated based on the center of mass of partials instead of center of mass of bins.";
         this.definition = new FeatureDefinition(name, description, true, 1);
         this.dependencies = new String[] { "Peak Detection" };
         this.offsets = new int[] { 0 };

@@ -44,9 +44,9 @@ public class AreaMomentsMFCC extends FeatureExtractor {
 	 * FeatureExtractor
 	 */
 	public AreaMomentsMFCC() {
-		String name = "Area Method of Moments of MFCCs";
-		String description = "2D statistical method of moments of MFCCs";
-		String[] attributes = new String[] {"Area Method of Moments Window Length" };
+		 name = "Area Method of Moments of MFCCs";
+		 description = "2D statistical method of moments of MFCCs";
+		 attributes = new String[] {"Area Method of Moments Window Length" };
 
 		definition = new FeatureDefinition(name, description, true, 10,
 				attributes);

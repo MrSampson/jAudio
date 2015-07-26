@@ -28,13 +28,13 @@ public class ConstantQMFCC extends FeatureExtractor {
      * offsets) of this feature.
      */
     public ConstantQMFCC() {
-        String name = "ConstantQ derived MFCCs";
-        String description = "MFCCs directly caluclated from ConstantQ exponential bins";
+        this.name = "ConstantQ derived MFCCs";
+        this.description = "MFCCs directly caluclated from ConstantQ exponential bins";
         boolean is_sequential = true;
         int dimensions = 0;
-        String[] attributes = new String[] { "Number of cepstra to return" };
-        this.definition = new FeatureDefinition(name, description, is_sequential,
-                dimensions, attributes);
+        this.attributes = new String[] { "Number of cepstra to return" };
+        this.definition = new FeatureDefinition(this.name, this.description,
+                is_sequential, dimensions, this.attributes);
 
         this.dependencies = new String[] { "Log of ConstantQ" };
 
@@ -78,17 +78,17 @@ public class ConstantQMFCC extends FeatureExtractor {
             try {
                 int val = Integer.parseInt(value);
                 if (val <= 0.0) {
-                    throw new Exception("Alpha must be a positive value");
+                    throw new Exception("Cepstra must be a positive value");
                 } else {
                     this.numCepstra = val;
                 }
             } catch (NumberFormatException e) {
-                throw new Exception("Lambda value must be a double");
+                throw new Exception("Cepstra value must be an integer");
             }
             break;
         default:
             throw new Exception(
-                    "INTERNAL ERROR: invalid index passed to ConstantQ:setElement");
+                    "INTERNAL ERROR: invalid index passed to ConstantQMFCC:setElement");
         }
     }
 

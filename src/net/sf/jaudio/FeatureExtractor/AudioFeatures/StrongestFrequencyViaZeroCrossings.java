@@ -28,13 +28,13 @@ public class StrongestFrequencyViaZeroCrossings extends FeatureExtractor {
      * offsets) of this feature.
      */
     public StrongestFrequencyViaZeroCrossings() {
-        String name = "Strongest Frequency Via Zero Crossings";
-        String description = "The strongest frequency component of a signal, in Hz, "
+        this.name = "Strongest Frequency Via Zero Crossings";
+        this.description = "The strongest frequency component of a signal, in Hz, "
                 + "found via the number of zero-crossings.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description, is_sequential,
-                dimensions);
+        this.definition = new FeatureDefinition(this.name, this.description,
+                is_sequential, dimensions);
 
         this.dependencies = new String[1];
         this.dependencies[0] = "Zero Crossings";
@@ -46,7 +46,8 @@ public class StrongestFrequencyViaZeroCrossings extends FeatureExtractor {
     /**
      * {@inheritDoc}
      * <p>
-     * In the case of this feature, the <code>sampling_rate parameter</code> is ignored.
+     * In the case of this feature, the <code>sampling_rate parameter</code> is
+     * ignored.
      * </p>
      */
     @Override
@@ -59,7 +60,6 @@ public class StrongestFrequencyViaZeroCrossings extends FeatureExtractor {
         return result;
     }
 
-  
     @Override
     public Object clone() {
         return new StrongestFrequencyViaZeroCrossings();

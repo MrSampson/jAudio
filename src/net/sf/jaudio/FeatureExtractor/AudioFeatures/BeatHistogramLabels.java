@@ -32,15 +32,13 @@ public class BeatHistogramLabels extends FeatureExtractor {
 
     private int binNumber = 256;
 
-    /* CONSTRUCTOR ************************************************************* */
-
     /**
      * Basic constructor that sets the definition and dependencies (and their
      * offsets) of this feature.
      */
     public BeatHistogramLabels() {
-        String name = "Beat Histogram Bin Labels";
-        String description = "The bin label, in beats per minute, of each beat "
+         name = "Beat Histogram Bin Labels";
+         description = "The bin label, in beats per minute, of each beat "
                 + "histogram bin. Not useful as a feature in itself, "
                 + "but useful for calculating other features from "
                 + "the beat histogram.";

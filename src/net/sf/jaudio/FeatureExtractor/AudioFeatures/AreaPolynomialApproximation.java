@@ -34,9 +34,9 @@ public class AreaPolynomialApproximation extends FeatureExtractor {
 	 * FeatureExtractor
 	 */
 	public AreaPolynomialApproximation() {
-		String name = "2D Polynomial Approximation";
-		String description = "coeffecients of 2D polynomial best describing the input matrtix.";
-		String[] attributes = new String[] { "horizontal size (window length)",
+		 name = "2D Polynomial Approximation";
+		 description = "coeffecients of 2D polynomial best describing the input matrtix.";
+		 attributes = new String[] { "horizontal size (window length)",
 											"vertical size (number of feature dimensions)",
 											"number of x (horizontal) terms",
 											"number of y (vertical) terms" };

@@ -30,8 +30,8 @@ public class FFTBinFrequencies extends FeatureExtractor {
      * offsets) of this feature.
      */
     public FFTBinFrequencies() {
-        String name = "FFT Bin Frequency Labels";
-        String description = "The bin label, in Hz, of each power spectrum or "
+         name = "FFT Bin Frequency Labels";
+         description = "The bin label, in Hz, of each power spectrum or "
                 + "magnitude spectrum bin. Not useful as a feature in "
                 + "itself, but useful for calculating other features "
                 + "from the magnitude spectrum and power spectrum.";

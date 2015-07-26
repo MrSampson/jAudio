@@ -40,8 +40,8 @@ public class HarmonicSpectralFlux extends FeatureExtractor {
      *
      */
     public HarmonicSpectralFlux() {
-        String name = new String("Partial Based Spectral Flux");
-        String description = new String(
+         name = new String("Partial Based Spectral Flux");
+         description = new String(
                 "Cacluate the correlation bettween adjacent frames based peaks instead of spectral bins.  Peak tracking is primitive - whe the number of bins changes, the bottom bins are matched sequentially and the extra unmatched bins are ignored.");
         this.definition = new FeatureDefinition(name, description, true, 1);
         this.dependencies = new String[] { "Peak Detection", "Peak Detection" };

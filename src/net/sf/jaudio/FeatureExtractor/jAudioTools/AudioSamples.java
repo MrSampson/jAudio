@@ -8,25 +8,31 @@
 package net.sf.jaudio.FeatureExtractor.jAudioTools;
 
 import javax.sound.sampled.*;
+
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
+ * <p>
  * A class for holding audio samples and associated audio formatting
  * information. Samples are stored as arrays of doubles, generally for use in
  * analysis and signal processing. Samples are stored maintaining any channel
  * segregation as well as mixed down to a single channel. Values can vary
  * between -1 and +1.
+ * </p>
  *
  * <p>
  * Each object of this class is assigned a string at instantiation that can be
  * used externally as a reference. Although not used internally by the methods
  * of this class, it will generally be best to assign a unique value to this
  * string, such as a filename.
+ * </p>
  *
  * <p>
  * Includes constructors for generating and storing the samples from
  * AudioInputStreams, audio files or existing arrays of sample values.
+ * </p>
  *
  * <p>
  * Includes methods for accessing samples as a whole or as segments, and also
@@ -38,8 +44,11 @@ import java.io.IOException;
  * also available for getting copies of objects of this class as well as for
  * getting formatted information about them. The samples can also be changed
  * externally.
+ * </p>
  *
  * @author Cory McKay
+ * @author Oliver Sampson, University of Konstanz -- added <code>save</code> for
+ *         use with an <code>OutputStream</code>
  */
 public class AudioSamples {
 
@@ -51,7 +60,7 @@ public class AudioSamples {
     protected String unique_ID;
 
     /**
-     * Audio samles, with a minimum value of -1 and a maximum value of +1. If
+     * Audio samples, with a minimum value of -1 and a maximum value of +1. If
      * audio is multi-channel, all channels are mixed down into this one
      * channel.
      */
@@ -59,26 +68,29 @@ public class AudioSamples {
 
     /**
      * Audio samles, with a minimum value of -1 and a maximum value of +1. Is
-     * set to null if only one channel of audio is present. First indice
-     * corresponds to channel and second indice corresponds to sample number.
+     * set to null if only one channel of audio is present. First index
+     * corresponds to channel and second index corresponds to sample number.
      */
     protected double[][] channel_samples;
 
     /**
      * The AudioFormat used to encode the samples field. Will always involve
-     * big-endian signed linear PCM encoding and a bit depth of eith 8 or 16
+     * big-endian signed linear PCM encoding and a bit depth of either 8 or 16
      * bits.
      */
     protected AudioFormat audio_format;
 
     /**
+     * <p>
      * Store the given audio file as samples and the corresponding AudioFormat.
+     * </p>
      *
      * <p>
      * <b>IMPORTANT:</b> Note that, regardless of the AudioFormat in the given
      * file, it will be converted and stored using big-endian signed linear PCM
      * encoding. Sampling rate and number of channels is maintained, but bit
      * depth will be changed to 16 bits if it is not either 8 or 16 bits.
+     * </p>
      *
      * @param audio_file
      *            A reference to an audio file from which to extract and store
@@ -120,9 +132,11 @@ public class AudioSamples {
         AudioInputStream converted_audio = AudioMethods
                 .getConvertedAudioStream(audio_input_stream);
 
-        this.channel_samples = AudioMethods.extractSampleValues(converted_audio);
+        this.channel_samples = AudioMethods
+                .extractSampleValues(converted_audio);
 
-        this.samples = DSPMethods.getSamplesMixedDownIntoOneChannel(this.channel_samples);
+        this.samples = DSPMethods
+                .getSamplesMixedDownIntoOneChannel(this.channel_samples);
 
         if (this.channel_samples.length == 1)
             this.channel_samples = null;
@@ -135,17 +149,21 @@ public class AudioSamples {
             normalizeIfClipped();
 
         converted_audio.close();
+        audio_input_stream.close();
     }
 
     /**
-     * Store the given AudioInputStream as samples and the corresponding
+     * <p>
+     * Read from the given AudioInputStream as samples and the corresponding
      * AudioFormat.
+     * </p>
      *
      * <p>
      * <b>IMPORTANT:</b> Note that the AudioFormat in the AudioInputStream will
      * be converted and stored as big-endian signed linear PCM encoding with.
      * Sampling rate and number of channels is maintained, but bit depth will be
      * changed to 16 bits if it is not either 8 or 16 bits.
+     * </p>
      *
      * @param audio_input_stream
      *            An AudioInputStream from which to extract and store samples as
@@ -174,9 +192,11 @@ public class AudioSamples {
         AudioInputStream converted_audio = AudioMethods
                 .getConvertedAudioStream(audio_input_stream);
 
-        this.channel_samples = AudioMethods.extractSampleValues(converted_audio);
+        this.channel_samples = AudioMethods
+                .extractSampleValues(converted_audio);
 
-        this.samples = DSPMethods.getSamplesMixedDownIntoOneChannel(this.channel_samples);
+        this.samples = DSPMethods
+                .getSamplesMixedDownIntoOneChannel(this.channel_samples);
 
         if (this.channel_samples.length == 1)
             this.channel_samples = null;
@@ -190,21 +210,24 @@ public class AudioSamples {
     }
 
     /**
-     * Store the given samples with the associated AudioFormat.
+     * <p>
+     * Read the given samples with the associated AudioFormat into a new object
+     * of AudioSamples.
+     * </p>
      *
      * <p>
      * <b>IMPORTANT:</b> Note that, regardless of the given AudioFormat, it will
      * be converted and samples will be stored as big-endian signed linear PCM
      * encoding. Sampling rate and number of channels is maintained, but bit
      * depth will be changed to 16 bits if it is not either 8 or 16 bits.
+     * </p>
      *
      * @param audio_samples
-     *            Audio samles to store, with a minimum value of -1 and a
-     *            maximum value of +1. The first indice corresponds to the
-     *            channel and the second indice corresponds to the sample
-     *            number.
+     *            Audio samples to store, with a minimum value of -1 and a
+     *            maximum value of +1. The first index corresponds to the
+     *            channel and the second index corresponds to the sample number.
      * @param audio_format
-     *            The AudioFormat to use for interpereting the given samples.
+     *            The AudioFormat to use for interpreting the given samples.
      * @param unique_identifier
      *            The string that will be used by external objects to uniquely
      *            identify the instantiated AudioSamples object.
@@ -244,7 +267,8 @@ public class AudioSamples {
 
         this.unique_ID = unique_identifier;
 
-        this.samples = DSPMethods.getSamplesMixedDownIntoOneChannel(audio_samples);
+        this.samples = DSPMethods
+                .getSamplesMixedDownIntoOneChannel(audio_samples);
 
         if (audio_samples.length == 1)
             this.channel_samples = null;
@@ -258,13 +282,13 @@ public class AudioSamples {
     }
 
     /**
-     * Store the given samples with the associated sampling rate. A default
+     * Read the given samples with the associated sampling rate. A default
      * AudioFormat is generated.
      *
      * @param audio_samples
-     *            Audio samles to store, with a minimum value of -1 and a
-     *            maximum value of +1. The first indice corresponds to the
-     *            channel and the second indice corresponds to the sample
+     *            Audio samples to store, with a minimum value of -1 and a
+     *            maximum value of +1. The first index corresponds to the
+     *            channel and the second index corresponds to the sample
      *            number.
      * @param sampling_rate
      *            The sampling rate to associate with the given samples.
@@ -299,7 +323,8 @@ public class AudioSamples {
 
         this.unique_ID = unique_identifier;
 
-        this.samples = DSPMethods.getSamplesMixedDownIntoOneChannel(audio_samples);
+        this.samples = DSPMethods
+                .getSamplesMixedDownIntoOneChannel(audio_samples);
 
         if (audio_samples.length == 1)
             this.channel_samples = null;
@@ -322,9 +347,7 @@ public class AudioSamples {
      *             Throws an informative exception if the copy cannot be made.
      */
     public AudioSamples getCopyOfAudioSamples() throws Exception {
-        String new_unique_ID = null;
-        if (new_unique_ID != null)
-            new_unique_ID = new String(this.unique_ID);
+        String new_unique_ID = new String(this.unique_ID);
 
         double[][] new_channel_samples = null;
         if (this.channel_samples != null) {
@@ -345,8 +368,10 @@ public class AudioSamples {
             new_audio_format = new AudioFormat(this.audio_format.getEncoding(),
                     this.audio_format.getSampleRate(),
                     this.audio_format.getSampleSizeInBits(),
-                    this.audio_format.getChannels(), this.audio_format.getFrameSize(),
-                    this.audio_format.getFrameRate(), this.audio_format.isBigEndian());
+                    this.audio_format.getChannels(),
+                    this.audio_format.getFrameSize(),
+                    this.audio_format.getFrameRate(),
+                    this.audio_format.isBigEndian());
         }
 
         return new AudioSamples(new_channel_samples, new_audio_format,
@@ -361,7 +386,8 @@ public class AudioSamples {
      * @return A formatted description of the recording.
      */
     public String getRecordingInfo() {
-        String return_string = AudioMethods.getAudioFormatData(this.audio_format);
+        String return_string = AudioMethods
+                .getAudioFormatData(this.audio_format);
 
         String number_samples = getNumberSamplesPerChannel() + " samples\n";
         String duration = getDuration() + " seconds\n";
@@ -565,13 +591,13 @@ public class AudioSamples {
         for (int win = 0; win < number_windows; win++) {
             if (win != number_windows - 1) {
                 for (int samp = 0; samp < window_size; samp++)
-                    windowed_samples[win][samp] = this.samples[win * window_size
-                            + samp];
+                    windowed_samples[win][samp] = this.samples[win
+                            * window_size + samp];
             } else {
                 for (int samp = 0; samp < window_size; samp++) {
                     if (win * window_size + samp < this.samples.length)
-                        windowed_samples[win][samp] = this.samples[win * window_size
-                                + samp];
+                        windowed_samples[win][samp] = this.samples[win
+                                * window_size + samp];
                     else
                         windowed_samples[win][samp] = 0;
                 }
@@ -922,7 +948,8 @@ public class AudioSamples {
 
         // Convert to an AudioInputStream
         AudioInputStream audio_input_stream = AudioMethods
-                .convertToAudioInputStream(samples_to_convert, this.audio_format);
+                .convertToAudioInputStream(samples_to_convert,
+                        this.audio_format);
 
         // Return the resuls
         return audio_input_stream;
@@ -953,7 +980,8 @@ public class AudioSamples {
 
         // Convert to an AudioInputStream
         AudioInputStream audio_input_stream = AudioMethods
-                .convertToAudioInputStream(samples_to_convert, this.audio_format);
+                .convertToAudioInputStream(samples_to_convert,
+                        this.audio_format);
 
         // Return the resuls
         return audio_input_stream;
@@ -984,18 +1012,22 @@ public class AudioSamples {
 
         // Convert to an AudioInputStream
         AudioInputStream audio_input_stream = AudioMethods
-                .convertToAudioInputStream(samples_to_convert, this.audio_format);
+                .convertToAudioInputStream(samples_to_convert,
+                        this.audio_format);
 
         // Return the resuls
         return audio_input_stream;
     }
 
     /**
+     * <p>
      * Saves the currently stored samples to the specified file.
+     * </p>
      *
      * <p>
      * <b>WARNING:</b> Will automatically overwrite given file if it already
      * exists.
+     * </p>
      *
      * @param save_file
      *            The File to save the audio samples to.
@@ -1036,15 +1068,79 @@ public class AudioSamples {
             audio_input_stream = getAudioInputStreamMixedDown();
 
         // Save as a wav file if file type not specified
-        if (save_file_type == null)
-            save_file_type = AudioFileFormat.Type.WAVE;
+        AudioFileFormat.Type saveFileType;
 
+        if (save_file_type == null)
+            saveFileType = AudioFileFormat.Type.WAVE;
+        else
+            saveFileType = save_file_type;
         // Delete any pre-existing file
         if (save_file.exists())
             save_file.delete();
 
         // Write the samples to the file
-        AudioSystem.write(audio_input_stream, save_file_type, save_file);
+        AudioSystem.write(audio_input_stream, saveFileType, save_file);
+        audio_input_stream.close();
+    }
+
+    /**
+     * <p>
+     * Saves the currently stored samples to the specified OutputStream.
+     * </p>
+     *
+     *
+     * @param out
+     *            The OutputStream to save the audio samples to.
+     * @param multi_channel
+     *            If this is true, then any separate channels are saved on
+     *            separate channels. If this is false, then saved file has only
+     *            one channel, onto which all samples have been mixed down to.
+     * @param save_file_type
+     *            The AudioFileFormat.Type to use for saving the audio. A
+     *            default value is used if this is null.
+     * @param normalize_if_clipped
+     *            If set to true, then normalizes audio so the absolute value of
+     *            the highest amplitude sample is 1. Does this if and only if
+     *            one or more of the samples to save is outside the allowable
+     *            range of sample values (-1 to 1). If set to false, then does
+     *            not normalize, regardless of sample values. <b>WARNING:</b>
+     *            This will normalize the samples stored in memory as well.
+     * @throws Exception
+     *             Throws an informative exception if the samples cannot be
+     *             successfully saved to the file.
+     * 
+     * @author Oliver Sampson, University of Konstanz
+     */
+    public void saveAudio(OutputStream out, boolean multi_channel,
+            AudioFileFormat.Type save_file_type, boolean normalize_if_clipped)
+            throws Exception {
+
+        // Verify that a file is specified
+        if (out == null)
+            throw new Exception("No output stream provided to save to.");
+
+        // Normalize the file if requested and if necessary
+        if (normalize_if_clipped)
+            normalizeIfClipped();
+
+        // Convert samples to an AudioInputStream
+        AudioInputStream audio_input_stream = null;
+        if (multi_channel)
+            audio_input_stream = getAudioInputStreamChannelSegregated();
+        else
+            audio_input_stream = getAudioInputStreamMixedDown();
+
+        // Save as a wav file if file type not specified
+        AudioFileFormat.Type saveFileType;
+
+        if (save_file_type == null)
+            saveFileType = AudioFileFormat.Type.WAVE;
+        else
+            saveFileType = save_file_type;
+
+        // Write the samples to the file
+        AudioSystem.write(audio_input_stream, saveFileType, out);
+        audio_input_stream.close();
     }
 
     /**
@@ -1071,7 +1167,8 @@ public class AudioSamples {
             for (int chan = 0; chan < this.channel_samples.length; chan++)
                 for (int samp = 0; samp < this.channel_samples[chan].length; samp++)
                     if (Math.abs(this.channel_samples[chan][samp]) > max_amplitude)
-                        max_amplitude = Math.abs(this.channel_samples[chan][samp]);
+                        max_amplitude = Math
+                                .abs(this.channel_samples[chan][samp]);
         } else {
             for (int samp = 0; samp < this.samples.length; samp++)
                 if (Math.abs(this.samples[samp]) > max_amplitude)
@@ -1139,7 +1236,8 @@ public class AudioSamples {
      */
     public void normalizeChannelSegretatedSamples() {
         if (this.channel_samples != null)
-            this.channel_samples = DSPMethods.normalizeSamples(this.channel_samples);
+            this.channel_samples = DSPMethods
+                    .normalizeSamples(this.channel_samples);
         else
             normalizeMixedDownSamples();
     }
@@ -1243,8 +1341,8 @@ public class AudioSamples {
     /**
      * Returns the given sample index converted into a time in seconds based on
      * the sampling rate of the stored audio samples. If the given sample index
-     * is negative, then time 0 is returned. If the given sample index is greate
-     * thean the length of the audio, then the time of the last index is
+     * is negative, then time 0 is returned. If the given sample index is
+     * greater than the length of the audio, then the time of the last index is
      * returned.
      *
      * @param sample_index
@@ -1254,11 +1352,12 @@ public class AudioSamples {
      *         duration of the audio.
      */
     private double convertSampleIndexToTime(int sample_index) {
+        int sampleIndex = sample_index;
         if (sample_index < 0)
-            sample_index = 0;
+            sampleIndex = 0;
         else if (sample_index >= this.samples.length)
-            sample_index = this.samples.length - 1;
-        float time = this.samples.length / this.audio_format.getSampleRate();
+            sampleIndex = this.samples.length - 1;
+        float time = sampleIndex / this.audio_format.getSampleRate();
         return (new Float(time)).doubleValue();
     }
 

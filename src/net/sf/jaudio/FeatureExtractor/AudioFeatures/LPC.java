@@ -27,9 +27,9 @@ public class LPC extends FeatureExtractor {
      * field.
      */
     public LPC() {
-        String name = "LPC";
-        String description = "Linear Prediction Coeffecients calculated using autocorrelation and Levinson-Durbin recursion.";
-        String[] attributes = new String[] { "lambda for frequency warping",
+         name = "LPC";
+         description = "Linear Prediction Coeffecients calculated using autocorrelation and Levinson-Durbin recursion.";
+         attributes = new String[] { "lambda for frequency warping",
                 "number of coeffecients to calculate" };
         this.definition = new FeatureDefinition(name, description, true, 10,
                 attributes);

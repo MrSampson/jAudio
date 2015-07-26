@@ -28,8 +28,8 @@ public class BeatSum extends FeatureExtractor {
      * offsets) of this feature.
      */
     public BeatSum() {
-        String name = "Beat Sum";
-        String description = "The sum of all entries in the beat histogram. "
+         name = "Beat Sum";
+         description = "The sum of all entries in the beat histogram. "
                 + "This is a good measure of the importance of "
                 + "regular beats in a signal.";
         boolean is_sequential = true;

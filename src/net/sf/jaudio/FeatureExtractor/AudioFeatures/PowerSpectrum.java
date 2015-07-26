@@ -37,11 +37,11 @@ public class PowerSpectrum extends FeatureExtractor {
      * offsets) of this feature.
      */
     public PowerSpectrum() {
-        String name = "Power Spectrum";
-        String description = "A measure of the power of different frequency components.";
+        this.name = "Power Spectrum";
+        this.description = "A measure of the power of different frequency components.";
         boolean is_sequential = true;
         int dimensions = 0;
-        this.definition = new FeatureDefinition(name, description,
+        this.definition = new FeatureDefinition(this.name, this.description,
                 is_sequential, dimensions);
 
         this.dependencies = null;

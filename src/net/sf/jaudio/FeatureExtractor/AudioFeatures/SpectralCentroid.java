@@ -29,15 +29,15 @@ public class SpectralCentroid extends FeatureExtractor {
      * Basic constructor that sets the definition and dependencies (and their
      * offsets) of this feature.
      * 
-     * <p>
-     * @author Daniel McEnnis 05-07-05 altered offsets to match dependencies<\p>
+     * 
+     * @author Daniel McEnnis 05-07-05 altered offsets to match dependencies
      */
     public SpectralCentroid() {
-        String name = "Spectral Centroid";
-        String description = "The centre of mass of the power spectrum.";
+        this.name = "Spectral Centroid";
+        this.description = "The centre of mass of the power spectrum.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description,
+        this.definition = new FeatureDefinition(this.name, this.description,
                 is_sequential, dimensions);
 
         this.dependencies = new String[1];

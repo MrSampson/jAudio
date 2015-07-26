@@ -9,15 +9,19 @@ package net.sf.jaudio.FeatureExtractor.AudioFeatures;
 import net.sf.jaudio.FeatureExtractor.ACE.DataTypes.FeatureDefinition;
 
 /**
+ * <p>
  * A feature extractor that extracts the Root Mean Square (RMS) from a set of
  * samples. This is a good measure of the power of a signal.
+ * </p>
  *
  * <p>
  * RMS is calculated by summing the squares of each sample, dividing this by the
  * number of samples in the window, and finding the square root of the result.
+ * </p>
  *
  * <p>
  * No extracted feature values are stored in objects of this class.
+ * </p>
  *
  * @author Cory McKay
  */
@@ -28,25 +32,24 @@ public class RMS extends FeatureExtractor {
      * offsets) of this feature.
      */
     public RMS() {
-        String name = "Root Mean Square";
-        String description = "A measure of the power of a signal.";
+         this.name = "Root Mean Square";
+         this.description = "A measure of the power of a signal.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description, is_sequential,
-                dimensions);
+        this.definition = new FeatureDefinition(this.name, this.description,
+                is_sequential, dimensions);
 
         this.dependencies = null;
 
         this.offsets = null;
     }
 
-
-
     /**
      * {@inheritDoc}
      * <p>
      * In the case of this feature, the sampling_rate and other_feature_values
-     * parameters are ignored.</p>
+     * parameters are ignored.
+     * </p>
      */
     @Override
     public double[] extractFeature(double[] samples, double sampling_rate,

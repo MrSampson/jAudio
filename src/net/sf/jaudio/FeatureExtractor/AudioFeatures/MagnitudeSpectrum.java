@@ -42,8 +42,8 @@ public class MagnitudeSpectrum extends FeatureExtractor {
      * offsets) of this feature.
      */
     public MagnitudeSpectrum() {
-        String name = "Magnitude Spectrum";
-        String description = "A measure of the strength of different frequency components.";
+         name = "Magnitude Spectrum";
+         description = "A measure of the strength of different frequency components.";
         boolean is_sequential = true;
         int dimensions = 0;
         this.definition = new FeatureDefinition(name, description,

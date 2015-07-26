@@ -34,12 +34,12 @@ public class StrengthOfStrongestBeat extends FeatureExtractor {
      * offsets) of this feature.
      */
     public StrengthOfStrongestBeat() {
-        String name = "Strength Of Strongest Beat";
-        String description = "How strong the strongest beat in the beat histogram "
+        this.name = "Strength Of Strongest Beat";
+        this.description = "How strong the strongest beat in the beat histogram "
                 + "is compared to other potential beats.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description,
+        this.definition = new FeatureDefinition(this.name, this.description,
                 is_sequential, dimensions);
 
         this.dependencies = new String[2];

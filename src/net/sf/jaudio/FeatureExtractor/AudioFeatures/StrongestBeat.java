@@ -27,13 +27,13 @@ public class StrongestBeat extends FeatureExtractor {
      * offsets) of this feature.
      */
     public StrongestBeat() {
-        String name = "Strongest Beat";
-        String description = "The strongest beat in a signal, in beats per minute, "
+        this.name = "Strongest Beat";
+        this.description = "The strongest beat in a signal, in beats per minute, "
                 + "found by finding the strongest bin in the beat histogram.";
         boolean is_sequential = true;
         int dimensions = 1;
-        this.definition = new FeatureDefinition(name, description, is_sequential,
-                dimensions);
+        this.definition = new FeatureDefinition(this.name, this.description,
+                is_sequential, dimensions);
 
         this.dependencies = new String[2];
         this.dependencies[0] = "Beat Histogram";

@@ -38,8 +38,8 @@ public class HarmonicSpectralSmoothness extends FeatureExtractor {
 	 *
 	 */
 	public HarmonicSpectralSmoothness() {
-		String name = "Peak Based Spectral Smoothness";
-		String description = "Peak Based Spectral Smoothness is calculated from partials, not frequency bins. It is implemented accortding to McAdams 99 "
+		 name = "Peak Based Spectral Smoothness";
+		 description = "Peak Based Spectral Smoothness is calculated from partials, not frequency bins. It is implemented accortding to McAdams 99 "
 				+ System.getProperty("line.separator")
 				+ System.getProperty("line.separator") + "McAdams, S. 1999. ";
 		definition = new FeatureDefinition(name, description, true, 1);

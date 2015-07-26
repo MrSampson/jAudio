@@ -10,23 +10,28 @@ import net.sf.jaudio.FeatureExtractor.DataModel;
 import net.sf.jaudio.FeatureExtractor.ACE.DataTypes.FeatureDefinition;
 
 /**
+ * <p>
  * The prototype for feature extractors. Each class that extends this class will
  * extract a particular feature from a window of audio samples. Such classes do
  * not store feature values, only extract them.
+ * </p>
  * <p>
  * Classes that extend this class should have a constructor that sets the three
  * protected fields of this class.
- * <p>
- * Daniel McEnnis 05-07-05 Added code to allow generic access to feature
- * attributes
- * <p>
- * Daniel McEnnis 05-08-05 Added setWindow and setParent features following the
- * composite pattern for new features.
+ * </p>
  * 
  * @author Cory McKay
+ * @author Daniel McEnnis 05-08-05 Added setWindow and setParent features
+ *         following the composite pattern for new features.
+ * @author Oliver Sampson, University of Konstanz moved <code>name</code>,
+ *         <code>description</code>, and <code>attributes</code> to this class
+ *         and added setters and getters.
  */
 public abstract class FeatureExtractor {
-    /* FIELDS ***************************************************************** */
+
+    protected String name;
+    protected String description;
+    protected String[] attributes;
 
     /**
      * Meta-data describing a feature.
@@ -42,7 +47,7 @@ public abstract class FeatureExtractor {
     /**
      * The offset in windows of each of the features named in the dependencies
      * field. An offset of -1, for example, means that the feature in
-     * dependencies with the same indice should be provided to this class's
+     * dependencies with the same index should be provided to this class's
      * extractFeature method with a value that corresponds to the window prior
      * to the window corresponding to this feature. Will be null if there are no
      * dependencies. This must be null, 0 or a negative number. Positive numbers
@@ -56,25 +61,27 @@ public abstract class FeatureExtractor {
      */
     protected DataModel parent;
 
-    /* PUBLIC METHODS ********************************************************* */
-
     /**
      * Returns meta-data describing this feature.
      * <p>
      * <b>IMPORTANT:</b> Note that a value of 0 in the returned dimensions of
      * the FeatureDefinition implies that the feature dimensions are variable,
      * and depend on the analyzed data.
+     * 
+     * @return
      */
     public FeatureDefinition getFeatureDefinition() {
-        return definition;
+        return this.definition;
     }
 
     /**
      * Returns the names of other features that are needed in order to extract
      * this feature. Will return null if no other features are needed.
+     * 
+     * @return
      */
-    public String[] getDepenedencies() {
-        return dependencies;
+    public String[] getDependencies() {
+        return this.dependencies;
     }
 
     /**
@@ -87,9 +94,11 @@ public abstract class FeatureExtractor {
      * getDependencies with the same indice should be provided to this class's
      * extractFeature method with a value that corresponds to the window prior
      * to the window corresponding to this feature.
+     * 
+     * @return
      */
     public int[] getDepenedencyOffsets() {
-        return offsets;
+        return this.offsets;
     }
 
     /**
@@ -126,7 +135,8 @@ public abstract class FeatureExtractor {
      */
     public String getElement(int index) throws Exception {
         throw new Exception(
-                "INTERNAL ERROR: This feature has no method defined for editing attributes.  Perhaps the author forgot to define this method.");
+                "INTERNAL ERROR: This feature has no method defined for editing "
+                        + "attributes. Perhaps the author forgot to define this method.");
     }
 
     /**
@@ -142,7 +152,8 @@ public abstract class FeatureExtractor {
      */
     public void setElement(int index, String value) throws Exception {
         throw new Exception(
-                "INTERNAL ERROR: This feature has no method defined for editing attributes.  Perhaps the author forgot to define this method.");
+                "INTERNAL ERROR: This feature has no method defined for editing "
+                        + "attributes.  Perhaps the author forgot to define this method.");
     }
 
     /**
@@ -152,9 +163,10 @@ public abstract class FeatureExtractor {
      * @param windowSize
      *            the number of windows of offset to be used in calculating this
      *            feature
+     * @throws Exception 
      */
     public void setWindow(int windowSize) throws Exception {
-
+        // Must be overridden
     }
 
     /**
@@ -175,6 +187,49 @@ public abstract class FeatureExtractor {
      * to use the prototype pattern to create new composite features using
      * metafeatures.
      */
+    @Override
     public abstract Object clone();
+
+    /**
+     * @return the name of the feature extractor
+     */
+    public String getName() {
+        return this.name;
+    }
+    
+    /**
+     * @param name name of the feature
+     */
+    public void setName(String name){
+        this.name = name;
+    }
+
+    /**
+     * @return the description of the feature extractor.
+     */
+    public String getDescription() {
+        return this.description;
+    }
+    
+    /**
+     * @param desc the description of the feature extractor
+     */
+    public void setDescription(String desc){
+        this.description = desc;
+    }
+    
+    /**
+     * @return the attributes for the feature extractor
+     */
+    public String[] getAttributes() {
+        return this.attributes;
+    }
+    
+    /**
+     * @param attr the attributes of the feature extractor
+     */
+    public void setAttributes(String[] attr){
+        this.attributes = attr;
+    }
 
 }

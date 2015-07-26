@@ -42,9 +42,9 @@ public class AreaMoments extends FeatureExtractor {
      * FeatureExtractor
      */
     public AreaMoments() {
-        String name = "Area Method of Moments";
-        String description = "2D statistical method of moments";
-        String[] attributes = new String[] { "Area Method of Moments Window Length" };
+        setName("Area Method of Moments");
+        setDescription("2D statistical method of moments");
+        setAttributes(new String[] { "Area Method of Moments Window Length" });
 
         this.definition = new FeatureDefinition(name, description, true, 10,
                 attributes);

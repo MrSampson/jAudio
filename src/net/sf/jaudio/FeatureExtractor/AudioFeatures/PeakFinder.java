@@ -23,9 +23,9 @@ public class PeakFinder extends FeatureExtractor {
      * offsets) of this feature.
      */
     public PeakFinder() {
-        String name = "Peak Detection";
-        String description = "All peaks that are within an order of magnitude of the highest point";
-        this.definition = new FeatureDefinition(name, description, true, 0,
+        this.name = "Peak Detection";
+        this.description = "All peaks that are within an order of magnitude of the highest point";
+        this.definition = new FeatureDefinition(this.name, this.description, true, 0,
                 new String[] { "Threshold for peak detection" });
         this.dependencies = new String[] { "Magnitude Spectrum" };
         this.offsets = new int[] { 0 };

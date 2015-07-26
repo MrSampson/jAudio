@@ -33,13 +33,13 @@ public class ConstantQ extends FeatureExtractor {
      * offsets) of this feature.
      */
     public ConstantQ() {
-        String name = "ConstantQ";
-        String description = "signal to frequency transform using exponential-spaced frequency bins.";
+        this.name = "ConstantQ";
+        this.description = "signal to frequency transform using exponential-spaced frequency bins.";
         boolean is_sequential = true;
         int dimensions = 0;
-        String[] attributes = new String[] { "Percent of a semitone per bin" };
-        this.definition = new FeatureDefinition(name, description,
-                is_sequential, dimensions, attributes);
+        this.attributes = new String[] { "Percent of a semitone per bin" };
+        this.definition = new FeatureDefinition(this.name, this.description,
+                is_sequential, dimensions, this.attributes);
 
         this.dependencies = null;
 
@@ -51,8 +51,8 @@ public class ConstantQ extends FeatureExtractor {
     /**
      * {@inheritDoc}
      * <p>
-     * In the case of this feature, the <code>sampling_rate</code> and
-     * <code>other_feature_values</code> parameters are ignored.
+     * In the case of this feature, the <code>other_feature_values</code>
+     * parameter are ignored.
      * </p>
      */
     @Override
@@ -164,7 +164,7 @@ public class ConstantQ extends FeatureExtractor {
             return Double.toString(this.alpha);
         default:
             throw new Exception("INTERNAL ERROR: invalid index " + index
-                    + " passed to LPC:getElement()");
+                    + " passed to ConstantQ:getElement()");
         }
     }
 

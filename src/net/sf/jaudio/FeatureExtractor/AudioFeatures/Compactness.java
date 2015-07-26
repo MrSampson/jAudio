@@ -32,8 +32,8 @@ public class Compactness extends FeatureExtractor {
      * offsets) of this feature.
      */
     public Compactness() {
-        String name = "Compactness";
-        String description = "A measure of the noisiness of a signal. "
+         name = "Compactness";
+         description = "A measure of the noisiness of a signal. "
                 + "Found by comparing the components of a window's "
                 + "magnitude spectrum with the magnitude spectrum "
                 + "of its neighbouring windows.";
