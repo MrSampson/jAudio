@@ -9,8 +9,11 @@ package net.sf.jaudio.FeatureExtractor.jAudioTools;
 
 import javax.sound.sampled.*;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
@@ -48,7 +51,8 @@ import java.io.OutputStream;
  *
  * @author Cory McKay
  * @author Oliver Sampson, University of Konstanz -- added <code>save</code> for
- *         use with an <code>OutputStream</code>
+ *         use with an <code>OutputStream</code> and constructor for use with an
+ *         <code>InputStream</code>
  */
 public class AudioSamples {
 
@@ -117,15 +121,55 @@ public class AudioSamples {
             throw new Exception("File " + audio_file.getName()
                     + " is a directory.");
 
+        
+        InputStream in = new BufferedInputStream(new FileInputStream(audio_file));       
+        
+        read(in, unique_identifier, normalize_if_clipped);
+        
+        in.close();              
+    }
+    
+    /**
+     * <p>
+     * Read the given audio file as samples and the corresponding AudioFormat.
+     * </p>
+     *
+     * <p>
+     * <b>IMPORTANT:</b> Note that, regardless of the AudioFormat in the given
+     * file, it will be converted and stored using big-endian signed linear PCM
+     * encoding. Sampling rate and number of channels is maintained, but bit
+     * depth will be changed to 16 bits if it is not either 8 or 16 bits.
+     * </p>
+     *
+     * @param in
+     *            A reference to InputStream from which to extract and store
+     *            samples as double values.
+     * @param unique_identifier
+     *            The string that will be used by external objects to uniquely
+     *            identify the instantiated AudioSamples object.
+     * @param normalize_if_clipped
+     *            If set to true, then normalizes audio so the absolute value of
+     *            the highest amplitude sample is 1. Does this if and only if
+     *            one or more of the samples is outside the allowable range of
+     *            sample values (-1 to 1). If set to false, then does not
+     *            normalize, regardless of sample values.
+     * @throws Exception
+     *             Throws an informative exception if the samples cannot be
+     *             extracted from the file.
+     */
+    public void read(InputStream in, String unique_identifier,
+            boolean normalize_if_clipped) throws Exception {
+      
+
         AudioInputStream audio_input_stream = null;
 
-        try {
-            audio_input_stream = AudioSystem.getAudioInputStream(audio_file);
+        try {            
+            audio_input_stream = AudioSystem.getAudioInputStream(in);
         } catch (UnsupportedAudioFileException ex) {
-            throw new Exception("File " + audio_file.getName()
+            throw new Exception("File " + unique_identifier
                     + " has an unsupported audio format.");
         } catch (IOException ex) {
-            throw new Exception("File " + audio_file.getName()
+            throw new Exception("File " + unique_identifier
                     + " is not readable.");
         }
 
@@ -288,8 +332,7 @@ public class AudioSamples {
      * @param audio_samples
      *            Audio samples to store, with a minimum value of -1 and a
      *            maximum value of +1. The first index corresponds to the
-     *            channel and the second index corresponds to the sample
-     *            number.
+     *            channel and the second index corresponds to the sample number.
      * @param sampling_rate
      *            The sampling rate to associate with the given samples.
      * @param unique_identifier
@@ -335,6 +378,16 @@ public class AudioSamples {
 
         if (normalize_if_clipped)
             normalizeIfClipped();
+    }
+
+    /**
+     * @param in
+     * @throws Exception
+     */
+    public AudioSamples(InputStream in) throws Exception {
+       
+       read(new BufferedInputStream(in), "Filename", false);
+        
     }
 
     /**
@@ -1079,7 +1132,7 @@ public class AudioSamples {
             save_file.delete();
 
         // Write the samples to the file
-        AudioSystem.write(audio_input_stream, saveFileType, save_file);
+        int x = AudioSystem.write(audio_input_stream, saveFileType, save_file);
         audio_input_stream.close();
     }
 
@@ -1331,7 +1384,7 @@ public class AudioSamples {
         boolean big_endian = true;
 
         int channels = 1;
-        if (this.channel_samples == null)
+        if (this.channel_samples != null)
             channels = this.channel_samples.length;
 
         return new AudioFormat(sampling_rate, bit_depth, channels, signed,
