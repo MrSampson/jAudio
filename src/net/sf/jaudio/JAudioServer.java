@@ -97,7 +97,7 @@ public class JAudioServer {
         	        throw new Exception("Data is artificially small - probable endianess problem");
         	}
 
-		processor.process(samples);
+//		processor.process(samples);
                 Date date = new Date();
                 String attach = date.toString();
                 attach = Pattern.compile("\\s").matcher(attach).replaceAll("_");

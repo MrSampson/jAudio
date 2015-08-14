@@ -90,13 +90,13 @@ public class ActiveAggTableModel extends DefaultTableModel {
 	 *
 	 * @param c controller managing connections between the model and table.
 	 */
-	public void init(Controller c) {
-		if (c.dm_.aggregators != null) {
-			for (int i = 0; i < c.dm_.aggregators.length; ++i) {
-				agg.add(c.dm_.aggregators[i]);
-				this.addRow(new Object[] {
-						c.dm_.aggregators[i].getAggregatorDefinition().name });
-			}
-		}
-	}
+//	public void init(Controller c) {
+//		if (c.dm_.aggregators != null) {
+//			for (int i = 0; i < c.dm_.aggregators.length; ++i) {
+//				agg.add(c.dm_.aggregators[i]);
+//				this.addRow(new Object[] {
+//						c.dm_.aggregators[i].getAggregatorDefinition().name });
+//			}
+//		}
+//	}
 }

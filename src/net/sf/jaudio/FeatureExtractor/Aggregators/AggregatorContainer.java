@@ -177,16 +177,16 @@ public class AggregatorContainer {
      * @param output data stream to place the Weka data in.
      * @throws Exception IO error occurs.
      */
-    public void outputJSONEntries(Writer output) throws Exception {
-        output.write("{"+Aggregator.LINE_SEP);
-        for (int i = 0; i < aggregatorList.size(); ++i) {
-            aggregatorList.get(i).outputJSONEntries(output);
-            if(i< aggregatorList.size()-1){
-                output.write(",");
-            }
-        }
-        output.write("}"+Aggregator.LINE_SEP);
-    }
+//    public void outputJSONEntries(Writer output) throws Exception {
+//        output.write("{"+Aggregator.LINE_SEP);
+//        for (int i = 0; i < aggregatorList.size(); ++i) {
+//            aggregatorList.get(i).outputJSONEntries(output);
+//            if(i< aggregatorList.size()-1){
+//                output.write(",");
+//            }
+//        }
+//        output.write("}"+Aggregator.LINE_SEP);
+//    }
 
     void buildAggregatorList() throws Exception{
 		aggregatorList.clear();

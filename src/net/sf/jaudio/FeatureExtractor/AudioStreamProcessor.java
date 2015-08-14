@@ -36,9 +36,9 @@ public class AudioStreamProcessor {
             double sampleRate = (Double)contents[2];
             boolean normalise = (Boolean)contents[3];
             boolean savePerWindow = (Boolean)contents[4];
-            window = savePerWindow;
+            this.window = savePerWindow;
             boolean saveOverall = (Boolean)contents[5];
-            overall = saveOverall;
+            this.overall = saveOverall;
             Map<String,Boolean> checked = (Map<String,Boolean>)contents[7];
             Map<String,String[]> attribute = (Map<String,String[]>)contents[8];
             List<String> aggregatorNames = (List<String>)contents[9];
@@ -75,10 +75,10 @@ public class AudioStreamProcessor {
                 a.setParameters(featIT.next(),paramIT.next());
                 list[i] = a;
             }
-            container = new AggregatorContainer();
-            container.add(list);
-            container.add(model.features,model.defaults);
-            analysisEngine = new FeatureProcessor(windowLength,
+            this.container = new AggregatorContainer();
+            this.container.add(list);
+            this.container.add(model.features,model.defaults);
+            this.analysisEngine = new FeatureProcessor(windowLength,
                                          windowOverlap,
                                          sampleRate,
                                          normalise,
@@ -90,7 +90,7 @@ public class AudioStreamProcessor {
                                          null,
                                          2,
                                          null,
-                                         container
+                                         this.container
                     );
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -98,72 +98,72 @@ public class AudioStreamProcessor {
     }
 
     public void output(String filePrefix) throws java.io.IOException{
- 	if(window){       
+ 	if(this.window){       
 	FileWriter windowWriter = new FileWriter(filePrefix+"window.json");
-        double[][][] w = analysisEngine.getWindow_feature_values();
+//        double[][][] w = this.analysisEngine.getWindow_feature_values();
         windowWriter.write("[\n");
         boolean w_first = true;
-        for (double[][] window : w){
-            if(w_first){
-                w_first = false;
-            }else{
-                windowWriter.write(",");
-            }
-            windowWriter.write("\t{\n");
-            boolean f_first = true;
-            for(int count = 0; count< window.length;++count){
-                double[] feature = window[count];
-                if(f_first){
-                    f_first = false;
-                }else{
-                    windowWriter.write(",");
-                }
-                windowWriter.write("\t\t\""+analysisEngine.feature_extractors[count]+"\" : [\n");
-                boolean e_first = true;
-                if(feature != null){
-		for(double element : feature){
-                    if(e_first){
-                       e_first = false;
-                    }else{
-                        windowWriter.write(",");
-                    }
-                    windowWriter.write(Double.toString(element));
-                }
-		}
-                windowWriter.write("\t\t]\n");
-            }
-            windowWriter.write("\t}\n");
-        }
+//        for (double[][] window : w){
+//            if(w_first){
+//                w_first = false;
+//            }else{
+//                windowWriter.write(",");
+//            }
+//            windowWriter.write("\t{\n");
+//            boolean f_first = true;
+//            for(int count = 0; count< window.length;++count){
+//                double[] feature = window[count];
+//                if(f_first){
+//                    f_first = false;
+//                }else{
+//                    windowWriter.write(",");
+//                }
+////                windowWriter.write("\t\t\""+this.analysisEngine.feature_extractors[count]+"\" : [\n");
+//                boolean e_first = true;
+//                if(feature != null){
+//		for(double element : feature){
+//                    if(e_first){
+//                       e_first = false;
+//                    }else{
+//                        windowWriter.write(",");
+//                    }
+//                    windowWriter.write(Double.toString(element));
+//                }
+//		}
+//                windowWriter.write("\t\t]\n");
+//            }
+//            windowWriter.write("\t}\n");
+//        }
         windowWriter.write("]\n");
         windowWriter.flush();
         windowWriter.close();
 	}
-        if(overall){
+        if(this.overall){
         FileWriter overallWriter = new FileWriter(filePrefix+"overall.json");
-        try{
-            container.outputJSONEntries(overallWriter);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
+//        try{
+//            this.container.outputJSONEntries(overallWriter);
+//        }catch(Exception e){
+//            System.out.println(e.getMessage());
+//        }
         overallWriter.flush();
         overallWriter.close();
 	System.out.println("Analysis of "+filePrefix+" finished");
         }
     }
 
-    public void process(double[] samples) throws Exception{
-        analysisEngine.extractFeaturesBySample(samples,null);
-    }
-
-    public double[][][] getPerWindowValues(){
-        return analysisEngine.getWindow_feature_values();
-    }
-
-    public int[] getWindowStartIndices(){
-        return analysisEngine.getWindow_start_indices();
-    }
+//    public void process(double[] samples) throws Exception{
+//        this.analysisEngine.extractFeaturesBySample(samples,null);
+//    }
+//
+//    public double[][][] getPerWindowValues(){
+//        return this.analysisEngine.getWindow_feature_values();
+//    }
+//
+//    public int[] getWindowStartIndices(){
+//        return this.analysisEngine.getWindow_start_indices();
+//    }
 
     public double[][] getOverallValues(){
-        return container.getResults();
+        return this.container.getResults();
     }
 }
